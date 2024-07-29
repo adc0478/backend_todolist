@@ -25,7 +25,7 @@ class activity extends Model
         return "idactivity";
     }
 
-    public function insert (String $start, String|null $finish=null, String $deteilActivity, int $proyect_idproyect, int $task_idtask):array{
+    public function insert (String|null $start=null, String|null $finish=null, String $deteilActivity, int $proyect_idproyect, int $task_idtask):array{
         try {
             $model = new activity();
             $model->start = $start;
@@ -41,7 +41,7 @@ class activity extends Model
         }
         return $this->output;
     }
-    public function modify (int $idactivity,String $start, String $finish, String $deteilActivity):array{
+    public function modify (int $idactivity,String|null $start=null, String|null $finish=null, String $deteilActivity):array{
 
         try {
             $model = activity::select()->where("idactivity",$idactivity)->get();
@@ -76,5 +76,8 @@ class activity extends Model
     }
     public function list_activity(string $idtask):object{
         return activity::where('task_idtask',$idtask)->get();
+    }
+    public function list_activity_by_idproyect(string $idproyect):object{
+        return activity::where('proyect_idproyect',$idproyect)->get();
     }
 }

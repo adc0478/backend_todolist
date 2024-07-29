@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\activity;
+use App\Models\user_has_proyect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,6 +12,7 @@ class activityController extends Controller
   public $output = [
         "status" =>false,
         "data" => [],
+        "Datauser_proyect" =>[],
         "info" => "",
         "error" => ""
     ];
@@ -18,9 +20,9 @@ class activityController extends Controller
     public function store(Request $request):object{
         $validate = Validator::make($request->all(),[
             'detailActivity' => "required",
-            'start' => "required",
             'proyect_idproyect' => "required|int",
-            'task_idtask' => "required|int"
+            'task_idtask' => "required|int",
+            'start' =>"regla_fechas:start,finish"
         ]);
         if ($validate->fails()){
             $this->output['error']  = "Verifique los datos suministrados";
@@ -52,9 +54,9 @@ class activityController extends Controller
     public function modify(Request $request):object{
         $validate = Validator::make($request->all(),[
             'detailActivity' => "required",
-            'start' => "required",
             'idactivity' => "required",
-            'task_idtask' => "required"
+            'task_idtask' => "required",
+            'start' =>"regla_fechas:start,finish"
         ]);
         if ($validate->fails()){
             $this->output['error']  = "Verifique los datos suministrados";
@@ -71,6 +73,7 @@ class activityController extends Controller
         $activity = new activity();
         return $activity->list_activity($idtask);
     }
+
     public function list_custon_activity(Request $request):object{
         $this->output['data'] =  $this->list_activity($request['task_idtask']);
         $this->output['status'] = true;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\activity;
 use App\Models\task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -72,7 +73,19 @@ class taskController extends Controller
     }
     public function get_data(string $idtask,string $idproyect){
         $task_model = new task();
+        $activity_model = new activity();
+        $activity = $activity_model->list_activity_by_idproyect($idproyect);
         $data = $task_model->get_model($idtask,$idproyect);
+        for ($i = 0; $i < count($data['data']); $i++) {
+           $data['data'][$i]['acc'] = 0;
+           for ($a = 0; $a < count($activity); $a++) {
+                if ($data['data'][$i]['idtask'] == $activity[$a]['task_idtask']){
+                    if ($activity[$a]['finish'] == null){
+                        $data['data'][$i]['acc'] += 1;
+                    }
+                }
+           }
+        }
         return $data['data'];
     }
 }

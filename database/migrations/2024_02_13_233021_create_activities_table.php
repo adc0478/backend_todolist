@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id("idactivity");
-            $table->timestamp('start');
+            $table->timestamp('start')->nullable();
             $table->timestamp('finish')->nullable();
             $table->string('detailActivity');
             $table->unsignedBigInteger('proyect_idproyect');

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\activityController;
 use App\Http\Controllers\proyectController;
+use App\Http\Controllers\table_role_Controller;
 use App\Http\Controllers\taskController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\UserProyectController;
@@ -50,5 +51,8 @@ use Illuminate\Support\Facades\Route;
         Route::put('user_proyect_create',[UserProyectController::class,'store'])->name('user_proyect_create')->middleware('UserRoll:relation_user_proyect');
         Route::put('user_proyect_modify',[UserProyectController::class,'modify'])->name('user_proyect_modify')->middleware('UserRoll:relation_user_proyect');
         Route::get('/get_user_proyect',[UserProyectController::class,'get_relation_user_proyect'])->name('get_user_proyect');
+
+//table_role
+        Route::get('/list_role',[table_role_Controller::class,'search_list'])->name('list_role');
     });
 
